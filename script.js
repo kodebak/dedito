@@ -9,8 +9,11 @@ const touchIndicators = {};
 // Function to handle touch start
 function handleTouchStart(event) {
     event.preventDefault();
-    instruction.classList.add('fade-out');
-    instruction.classList.remove('fade-in');
+    // Add the fade-out class after the DOM has been updated
+    setTimeout(() => {
+        instruction.classList.add('fade-out');
+        instruction.classList.remove('fade-in');
+    }, 0);
     for (let i = 0; i < event.changedTouches.length; i++) {
         const touch = event.changedTouches[i];
         // Create a new indicator for each touch point
@@ -41,8 +44,11 @@ function handleTouchMove(event) {
 // Function to handle touch end
 function handleTouchEnd(event) {
     event.preventDefault();
-    instruction.classList.add('fade-in');
-    instruction.classList.remove('fade-out');
+    // Add the fade-in class after the DOM has been updated
+    setTimeout(() => {
+        instruction.classList.add('fade-in');
+        instruction.classList.remove('fade-out');
+    }, 0);
     for (let i = 0; i < event.changedTouches.length; i++) {
         const touch = event.changedTouches[i];
         // Remove the indicator when the touch ends
@@ -57,4 +63,8 @@ function handleTouchEnd(event) {
     }
 }
 
-// Fun
+// Attach event listeners
+touchArea.addEventListener('touchstart', handleTouchStart, false);
+touchArea.addEventListener('touchmove', handleTouchMove, false);
+touchArea.addEventListener('touchend', handleTouchEnd, false);
+touchArea.addEventListener('touchcancel', handleTouchEnd, false);
