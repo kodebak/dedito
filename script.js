@@ -80,22 +80,5 @@ function handleTouchEnd(event) {
 }
 
 // Function to start the countdown
-function startCountdown() {
-    countdownValue = 3;
-    countdownElement.textContent = countdownValue;
-    countdownElement.style.opacity = 1;
-    countdownTimeout = setInterval(updateCountdown, 1000);
-}
-
-// Function to update the countdown
-function updateCountdown() {
-    countdownValue--;
-    if (countdownValue > 0) {
-        countdownElement.textContent = countdownValue;
-    } else {
-        clearInterval(countdownTimeout);
-                countdownElement.style.opacity = 0;
-            }
-        }
-
+::contentReference[oaicite:1]{index=1}
  
