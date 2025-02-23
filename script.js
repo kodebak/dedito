@@ -94,27 +94,8 @@ function updateCountdown() {
         countdownElement.textContent = countdownValue;
     } else {
         clearInterval(countdownTimeout);
-        countdownElement.style.opacity = 0;
-        selectRandomWinner();
-    }
-}
+                countdownElement.style.opacity = 0;
+            }
+        }
 
-// Function to select a random winner
-function selectRandomWinner() {
-    const touchIds = Object.keys(touchIndicators);
-    if (touchIds.length > 0) {
-        const randomIndex = Math.floor(Math.random() * touchIds.length);
-        const winnerId = touchIds[randomIndex];
-        const winnerIndicator = touchIndicators[winnerId];
-        winnerIndicator.classList.add('winner');
-        // Remove the winner after 1 second
-        setTimeout(() => {
-            winnerIndicator.classList.remove('winner');
-        }, 1000);
-    }
-}
-
-// Attach event listeners
-touchArea.addEventListener
-::contentReference[oaicite:0]{index=0}
  
