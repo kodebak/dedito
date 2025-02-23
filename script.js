@@ -80,5 +80,25 @@ function handleTouchEnd(event) {
 }
 
 // Function to start the countdown
-::contentReference[oaicite:1]{index=1}
- 
+function startCountdown() {
+    countdownValue = 3;
+    countdownElement.textContent = countdownValue;
+    countdownElement.style.opacity = 1;
+    countdownTimeout = setInterval(updateCountdown, 1000);
+}
+
+// Function to update the countdown
+function updateCountdown() {
+    countdownValue--;
+    if (countdownValue > 0) {
+        countdownElement.textContent = countdownValue;
+    } else {
+        clearInterval(countdownTimeout);
+        countdownElement.style.opacity = 0;
+    }
+}
+
+// Add event listeners for touch events
+touchArea.addEventListener('touchstart', handleTouchStart);
+touchArea.addEventListener('touchmove', handleTouchMove);
+touchArea.addEventListener('touchend', handleTouchEnd);
