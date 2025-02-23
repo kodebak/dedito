@@ -1,13 +1,16 @@
 // script.js
 
 const touchArea = document.getElementById('touchArea');
+const instruction = document.getElementById('instruction');
 
 // Object to keep track of active touch indicators
 const touchIndicators = {};
 
-// Handle touch start events
+// Function to handle touch start
 function handleTouchStart(event) {
     event.preventDefault();
+    instruction.classList.add('fade-out');
+    instruction.classList.remove('fade-in');
     for (let i = 0; i < event.changedTouches.length; i++) {
         const touch = event.changedTouches[i];
         // Create a new indicator for each touch point
@@ -21,7 +24,7 @@ function handleTouchStart(event) {
     }
 }
 
-// Handle touch move events
+// Function to handle touch move
 function handleTouchMove(event) {
     event.preventDefault();
     for (let i = 0; i < event.changedTouches.length; i++) {
@@ -35,9 +38,11 @@ function handleTouchMove(event) {
     }
 }
 
-// Handle touch end and touch cancel events
+// Function to handle touch end
 function handleTouchEnd(event) {
     event.preventDefault();
+    instruction.classList.add('fade-in');
+    instruction.classList.remove('fade-out');
     for (let i = 0; i < event.changedTouches.length; i++) {
         const touch = event.changedTouches[i];
         // Remove the indicator when the touch ends
@@ -52,8 +57,4 @@ function handleTouchEnd(event) {
     }
 }
 
-// Attach event listeners
-touchArea.addEventListener('touchstart', handleTouchStart, false);
-touchArea.addEventListener('touchmove', handleTouchMove, false);
-touchArea.addEventListener('touchend', handleTouchEnd, false);
-touchArea.addEventListener('touchcancel', handleTouchEnd, false);
+// Fun
