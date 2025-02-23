@@ -9,7 +9,7 @@ body, html {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    user-select: none;
+    user-select: none; /* Prevent text selection globally */
     overflow: hidden;
     background-color: #333;
     color: #ccc;
@@ -66,12 +66,5 @@ body, html {
 
 #instruction {
     transition: opacity 0.5s ease-in-out;
-}
-
-.fade-out {
-    opacity: 0;
-}
-
-.fade-in {
-    opacity: 1;
+    user-select: none; /* Prevent text selection for the instruction */
 }
