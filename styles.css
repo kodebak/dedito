@@ -9,7 +9,7 @@ body, html {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    user-select: none; /* Prevent text selection globally */
+    user-select: none;
     overflow: hidden;
     background-color: #333;
     color: #ccc;
@@ -26,6 +26,7 @@ body, html {
     background-color: #333;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     position: relative;
+    touch-action: none; /* Prevent default touch actions */
 }
 
 .indicator {
@@ -66,5 +67,12 @@ body, html {
 
 #instruction {
     transition: opacity 0.5s ease-in-out;
-    user-select: none; /* Prevent text selection for the instruction */
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+.fade-in {
+    opacity: 1;
 }
