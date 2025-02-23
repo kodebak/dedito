@@ -5,6 +5,7 @@ const instruction = document.getElementById('instruction');
 
 // Object to keep track of active touch indicators
 const touchIndicators = {};
+let touchTimeout;
 
 // Function to handle touch start
 function handleTouchStart(event) {
@@ -22,6 +23,9 @@ function handleTouchStart(event) {
         touchArea.appendChild(indicator);
         touchIndicators[touch.identifier] = indicator;
     }
+    // Clear any existing timeout and set a new one
+    clearTimeout(touchTimeout);
+    touchTimeout = setTimeout(selectRandomFinger, 3000);
 }
 
 // Function to handle touch move
@@ -54,6 +58,23 @@ function handleTouchEnd(event) {
             });
             delete touchIndicators[touch.identifier];
         }
+    }
+    // Clear the timeout if touch ends before 3 seconds
+    clearTimeout(touchTimeout);
+}
+
+// Function to select a random finger and highlight it
+function selectRandomFinger() {
+    const touchIds = Object.keys(touchIndicators);
+    if (touchIds.length > 0) {
+        const randomIndex = Math.floor(Math.random() * touchIds.length);
+        const selectedTouchId = touchIds[randomIndex];
+        const selectedIndicator = touchIndicators[selectedTouchId];
+        selectedIndicator.classList.add('gold-glow');
+        // Remove the gold glow after 1 second
+        setTimeout(() => {
+            selectedIndicator.classList.remove('gold-glow');
+        }, 1000);
     }
 }
 
