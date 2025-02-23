@@ -3,27 +3,29 @@
 const touchArea = document.getElementById('touchArea');
 const instruction = document.getElementById('instruction');
 
-let activeTouches = [];
-let inactivityTimer;
+// Object to keep track of active touch indicators
+const touchIndicators = {};
+let touchTimeout;
 
 // Function to handle touch start
 function handleTouchStart(event) {
     event.preventDefault();
     instruction.classList.add('fade-out');
     instruction.classList.remove('fade-in');
-
     for (let i = 0; i < event.changedTouches.length; i++) {
         const touch = event.changedTouches[i];
+        // Create a new indicator for each touch point
         const indicator = document.createElement('div');
         indicator.className = 'indicator';
         indicator.style.left = `${touch.clientX}px`;
         indicator.style.top = `${touch.clientY}px`;
         indicator.id = `touch-${touch.identifier}`;
         touchArea.appendChild(indicator);
-        activeTouches.push({ touch, indicator });
+        touchIndicators[touch.identifier] = indicator;
     }
-
-    resetInactivityTimer();
+    // Clear any existing timeout and set a new one
+    clearTimeout(touchTimeout);
+    touchTimeout = setTimeout(selectRandomWinner, 3000);
 }
 
 // Function to handle touch move
@@ -31,13 +33,13 @@ function handleTouchMove(event) {
     event.preventDefault();
     for (let i = 0; i < event.changedTouches.length; i++) {
         const touch = event.changedTouches[i];
-        const touchData = activeTouches.find(t => t.touch.identifier === touch.identifier);
-        if (touchData) {
-            touchData.indicator.style.left = `${touch.clientX}px`;
-            touchData.indicator.style.top = `${touch.clientY}px`;
+        // Update the position of the existing indicator
+        const indicator = touchIndicators[touch.identifier];
+        if (indicator) {
+            indicator.style.left = `${touch.clientX}px`;
+            indicator.style.top = `${touch.clientY}px`;
         }
     }
-    resetInactivityTimer();
 }
 
 // Function to handle touch end
@@ -45,35 +47,33 @@ function handleTouchEnd(event) {
     event.preventDefault();
     instruction.classList.add('fade-in');
     instruction.classList.remove('fade-out');
-
     for (let i = 0; i < event.changedTouches.length; i++) {
         const touch = event.changedTouches[i];
-        const touchData = activeTouches.find(t => t.touch.identifier === touch.identifier);
-        if (touchData) {
-            touchData.indicator.classList.add('fade-out');
-            touchData.indicator.addEventListener('animationend', () => {
-                touchData.indicator.remove();
+        // Remove the indicator when the touch ends
+        const indicator = touchIndicators[touch.identifier];
+        if (indicator) {
+            indicator.classList.add('fade-out');
+            indicator.addEventListener('animationend', () => {
+                indicator.remove();
             });
-            activeTouches = activeTouches.filter(t => t.touch.identifier !== touch.identifier);
+            delete touchIndicators[touch.identifier];
         }
     }
-    resetInactivityTimer();
-}
-
-// Function to reset the inactivity timer
-function resetInactivityTimer() {
-    clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(selectWinner, 3000);
+    // Clear the timeout if the user lifts their finger before 3 seconds
+    clearTimeout(touchTimeout);
 }
 
 // Function to select a random winner
-function selectWinner() {
-    if (activeTouches.length > 0) {
-        const randomIndex = Math.floor(Math.random() * activeTouches.length);
-        const winner = activeTouches[randomIndex];
-        winner.indicator.classList.add('winner');
+function selectRandomWinner() {
+    const touchIds = Object.keys(touchIndicators);
+    if (touchIds.length > 0) {
+        const randomIndex = Math.floor(Math.random() * touchIds.length);
+        const winnerId = touchIds[randomIndex];
+        const winnerIndicator = touchIndicators[winnerId];
+        winnerIndicator.classList.add('winner');
+        // Remove the winner after 1 second
         setTimeout(() => {
-            winner.indicator.classList.remove('winner');
+            winnerIndicator.classList.remove('winner');
         }, 1000);
     }
 }
