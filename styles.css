@@ -76,6 +76,6 @@ body, html {
     opacity: 1;
 }
 
-.gold-glow {
-    box-shadow: 0 0 15px 5px gold;
+.winner {
+    border: 5px solid gold;
 }
