@@ -62,44 +62,33 @@
         let activeTouches = [];
 
         function handleTouchStart(event) {
-            // Prevent default behavior
             event.preventDefault();
-
-            // Add new touches to the activeTouches array
             for (let i = 0; i < event.changedTouches.length; i++) {
                 activeTouches.push(event.changedTouches[i]);
             }
         }
 
         function handleTouchEnd(event) {
-            // Prevent default behavior
             event.preventDefault();
-
-            // Remove ended touches from the activeTouches array
             for (let i = 0; i < event.changedTouches.length; i++) {
                 const idx = activeTouches.findIndex(touch => touch.identifier === event.changedTouches[i].identifier);
                 if (idx !== -1) activeTouches.splice(idx, 1);
             }
 
-            // If no active touches remain, select a random touch
-            if (activeTouches.length === 0) {
-                if (event.touches.length > 0) {
-                    const randomIndex = Math.floor(Math.random() * event.touches.length);
-                    const selectedTouch = event.touches[randomIndex];
-                    indicateWinner(selectedTouch);
-                }
+            if (activeTouches.length === 0 && event.touches.length === 0) {
+                const randomIndex = Math.floor(Math.random() * event.changedTouches.length);
+                const selectedTouch = event.changedTouches[randomIndex];
+                indicateWinner(selectedTouch);
             }
         }
 
         function indicateWinner(touch) {
-            // Create a visual indication of the winning touch point
             const indicator = document.createElement('div');
             indicator.className = 'indicator';
             indicator.style.left = `${touch.clientX}px`;
             indicator.style.top = `${touch.clientY}px`;
             document.body.appendChild(indicator);
 
-            // Remove the indicator after a short delay
             setTimeout(() => {
                 document.body.removeChild(indicator);
             }, 1000);
